@@ -1,43 +1,44 @@
 //
 //  ViewController.swift
-//  4
+//  1
 //
-//  Created by user217916 on 3/30/22.
+//  Created by user217916 on 3/29/22.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var collectionView: UICollectionView!
+    
+    
+    @IBOutlet weak var categoryView: UITableView!
+    
+    let catalogue = ["Furniture", "Kitchen Cabinets and Appliances", "Bed and Mattresses", "Storage and Organization", "Working from Home", "Textiles", "Decoration", "Bathroom Products", "Outdoor Products", "Lighting", "Rugs, Mats and Flooring", "Baby and Children"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.collectionViewLayout = UICollectionViewFlowLayout()
-        
+        categoryView.delegate = self
+        categoryView.dataSource = self
+        categoryView.allowsSelection = false
     }
 }
 
-extension ViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return furnitures.count
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FurnitureCollectionViewCell", for: indexPath) as! FurnitureCollectionViewCell
-        cell.setup(with: furnitures[indexPath.row])
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return catalogue.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = categoryView.dequeueReusableCell(withIdentifier: "customCell") as! CustomCell
+        let category = catalogue[indexPath.row]
+        cell.nameLbl.text = category
+        
         return cell
     }
+    
 }
-
-extension ViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 300, height: 700)
-    }
-}
-
-
-
+    
